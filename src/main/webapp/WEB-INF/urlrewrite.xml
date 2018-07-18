@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 2.6//EN" "http://tuckey.org/res/dtds/urlrewrite2.6.dtd">
+<urlrewrite>
+	<!-- 屏蔽jsessionid(Begin) -->
+	<outbound-rule encodefirst="true">
+		<name>Strip URL Session ID's</name>
+		<from>^(.*?)(?:\;JSESSIONID=[^\?#]*)?(\?[^#]*)?(#.*)?$</from>
+		<to encode="false">$1$2$3</to>
+	</outbound-rule> 
+	<outbound-rule encodefirst="true">
+        <condition name="user-agent">googlebot.*</condition>
+        <from>^(.*);jsessionid=.*(\?.*)$</from>
+        <to>$1$2</to>
+    </outbound-rule>
+    <!-- 屏蔽jsessionid(End) -->
+</urlrewrite>

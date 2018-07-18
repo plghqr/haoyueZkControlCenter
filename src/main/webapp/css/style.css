@@ -1,0 +1,117 @@
+body,button,input,select,textarea,h1,h2,h3,h4,h5,h6 {
+	font-family:  Microsoft YaHei, 'ËÎÌו', Tahoma, Helvetica, Arial,"\5b8b\4f53", sans-serif;
+	
+}
+
+.textcenter {
+	text-align: center;
+	margin:0;padding:0;
+}
+
+.table-bordered td {
+	white-space: nowrap;
+}
+
+.table-bordered th {
+	white-space: nowrap;
+}
+
+.sidebar-nav {
+	min-height: 0;
+	box-shadow: 0 0 10px #BDBDBD;
+	-webkit-box-shadow: 0 0 10px #BDBDBD;
+	-moz-box-shadow: 0 0 10px #BDBDBD;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	margin-bottom: 0;
+	padding-bottom: 0;
+	margin-top: 10px;
+}
+
+.form-actions {
+	padding: 17px 20px 18px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	border-top: 1px solid #e5e5e5;
+}
+
+.dis5bottom{
+	margin-bottom:5px
+}
+
+.dis0top{
+	margin-top:0
+}
+
+.active a {
+	color: #ffffff
+}
+
+.hideTitle{
+overflow:hidden;
+text-overflow:ellipsis;
+-o-text-overflow:ellipsis;
+text-align:center;
+}
+
+#accordion{
+	margin-top:10px;
+}
+.flight_shopping_div{
+	background-color:#E2F2F9;
+	border:solid 1px #0062ab;
+	border-radius: 10px;
+}
+.flight_shopping_bg_color{
+	background-color:#E2F2F9
+}
+.flight_shopping_price{
+	font-size:1.1em;
+	color:#E37222;
+	font-weight:bold
+}
+
+/*Add by PGQ */
+.pointer{cursor:pointer;}
+
+.pagination{
+	margin-top:-15px;padding-bottom:1px;width:100%;background-color: #fff;border: 1px solid #ddd;
+}
+.pagination>li>span{
+	border:0px;
+	border-botttom:1px solid #ddd;
+}
+.pagination>li>span.glyphicon{
+	width:31px;
+	padding-left:8px;
+	padding-right:8px;
+}
+.pagination>li>span.sepRight{
+	border-right:1px solid #ddd;
+}
+.pagination>li>span.sepLeft{
+	border-left:1px solid #ddd;
+}
+.pagination>li>span.text{
+	padding:1px 1px;
+}
+.pagination>li>span>input{
+	padding-left:5px;
+	padding-right:2px;
+	margin-left:0px;
+	width:40px;
+	line-height:25px;
+}
+
+.pagination>li>span:hover,.pagination>li>span:focus{cursor:pointer;}
+.pagination>li>span.nohover:hover,.pagination>li>span.nohover:focus{background-color:Transparent;cursor:default;}
+.pagination>li>span>.record{
+	font-weight:600;
+	font-size:13px;
+}
+
+.navbar-fixed-left{
+	position: fixed;
+	width:14.4444444%;
+}

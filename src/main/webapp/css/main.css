@@ -1,0 +1,782 @@
+@CHARSET "UTF-8";
+
+/*全局性样式表*/
+body {
+	/*font-size: 12px;*/
+	margin: 0px;
+	border: 0px;
+	padding: 0px;
+	overflow:auto;
+}
+
+body,.bdCenter{
+	padding-left:2px;
+	padding-right:2px;
+}
+
+td {
+	COLOR: #000000;
+}
+
+tr {
+	height: 27px;
+}
+
+label{cursor:pointer;}
+
+input.smallInput {
+	border: 1px solid #000;
+	padding: 1px;
+	cursor: text;
+	color: #000000;
+	font-family: "Song", "Tahoma", "MS Shell Dlg";
+	height:18px;
+	background-color:#fbf4e6
+}
+
+SELECT.smallsel {
+	BORDER-RIGHT: #000000 1px solid;
+	BORDER-TOP: #000000 1px solid;
+	FONT: 9pt "Arial", "Tahoma", "sans-serif";
+	BORDER-LEFT: #000000 1px solid;
+	BORDER-BOTTOM: #000000 1px solid;
+	HEIGHT: 18px
+}
+
+.gray:link {
+	COLOR: #68696a;
+	TEXT-DECORATION: none
+}
+
+.gray:visited {
+	COLOR: #68696a;
+	TEXT-DECORATION: none
+}
+
+.gray:hover {
+	COLOR: #0066ff;
+	TEXT-DECORATION: underline
+}
+
+/*全屏幕DIV框*/
+.ContentDiv {
+	height: 100%;
+	width: 100%;
+}
+
+/*可编辑文本框样式*/
+.editText {
+	BORDER:1px solid #BAD4FC;
+}
+
+/*不可编辑文本框样式*/
+.hiddenText {
+	border: 1px solid #C0C0C0;
+	background-color:#EBEBEB;
+}
+/*不可编辑下拉框*/
+.hiddenSelect {
+	BORDER: #C0C0C0 1px solid;
+	BACKGROUND-COLOR: #EBEBEB;
+}
+
+/*页面标题*/
+.gridTitle {
+	color: #333333;
+	padding-top: 3px;
+	font-weight: bold;
+	font-size: 13px;
+	vertical-align: middle;
+	text-align: center;
+	width: 100%;
+}
+
+.search,.searchFoot {
+	color: #333333;
+	font-weight: normal;
+	font-size: 12px;
+	vertical-align: center;
+	text-align: right;
+	padding-top: 5px;
+	padding-bottom:2px;
+	width: 99.9%;
+	height:20px;
+	padding-bottom:10px;
+	border-bottom:1px inset #c0c0c0;
+	background-color: #F3FFE3;
+	background-image: url(../images/tab_05.gif);
+	background-repeat:repeat-x;
+}
+
+.searchFoot{
+	border-bottom:0px inset #c0c0c0;
+	border-bottom:1px inset #c0c0c0;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	text-align: center;
+	z-index: 2000;
+	margin-right: 0px;
+	margin-left: 0px;
+}
+
+.search span{
+	padding-left:10px;
+	padding-right:5px;
+}
+
+.search table th{
+	text-align:right;
+	padding-right:2px;
+	font-size:12px;
+	font-weight:normal;
+	width:60px;
+}
+
+/*自定义的查询条件*/
+.query{
+	width:25%;float:left;
+}
+
+.tipmessage {
+	font-color: red;
+	font-weight: bold;
+	font-size: 12px;
+	vertical-align: middle;
+	text-align: center;
+	background-color: #EBEBEB;
+}
+
+.imptitle{
+	color:red;
+	font-weight: bold;
+	font-size: 12px;
+}
+
+.tiptitle{
+	color:blue;
+	font-weight: bold;
+	font-size: 12px;
+}
+
+.bottombutton {
+	color: #333333;
+	font-weight: normal;
+	font-size: 12px;
+	vertical-align: center;
+	text-align: center;
+	padding-top: 0px !important;
+	padding-top: 2px;
+	margin-bottom:-12px !important;
+	margin-bottom:0px;
+	width: 100%;
+	background-image: url(../images/tab_14.gif);
+}
+
+.tipdiv
+{
+	width:100%;
+	padding-bottom:5px;
+	padding-top:5px;
+	font-weight: bold;
+	color:#003DBB;
+	filter: progid:DXImageTransform.Microsoft.gradient(startcolorstr =#D4D4D4, endcolorstr =#ffffff, gradientType =1);
+}
+
+.tiptd {
+	color: #003DBB;
+	height: 23px;
+	text-indent: 5pt;
+	font-weight: bold;
+	filter: progid:DXImageTransform.Microsoft.gradient(startcolorstr =#D4D4D4, endcolorstr =#FFFFFF, gradientType =1);
+}
+
+#ajaxreturn{z-index:9999;}
+
+/*查询列表的表头*/
+.tabHeader {
+	overflow: visible;
+	width: 100%;
+	vertical-align: middle;
+	table-layout: fixed;
+	border-collapse:collapse;
+	border-bottom: 1px inset #f0f0f0;
+}
+
+.tabHeader tr {
+	width: 100%;
+	height: 27px;
+	border: 0px solid #aac0dd;
+	background-image: url(../images/tab_14.gif);
+}
+
+.tabHeader td{
+	text-align: center;
+	vertical-align: middle;
+	white-space: nowrap;
+	word-break: keep-all;
+	word-wrap: normal;
+}
+
+/*表头排序列*/
+.sortTitle {
+	cursor: pointer;
+	color: blue;
+}
+
+/*表内容部分，一般包含在div中,div提供滚动条，table提供内容*/
+.divContext {
+	height: 460px;
+	width:auto;
+	margin:0px;
+	OVERFLOW-X: hidden;
+	OVERFLOW-y: auto;
+	border: 0px solid #c0c0c0;
+	border-left:1px solid #c0c0c0;
+	border-right:0px solid #c0c0c0;
+}
+
+/* FF */
+.tabContext {
+	border-collapse: collapse;
+	width: 100% !important;
+	overflow: auto;
+	table-layout: fixed;
+	border:none;
+	border-left:0px solid #c0c0c0;
+	border-top:0px solid #c0c0c0;
+	border-bottom:0px solid #c0c0c0;
+	border-right:0px solid #c0c0c0;
+}
+
+/* IE6 */
+* html .tabContext {
+	border-collapse: collapse;
+	width: 100% !important;
+	overflow: auto;
+	table-layout: fixed;
+}
+
+/* IE7*/
+*+html .tabContext {
+	border-collapse: collapse;
+	overflow: auto;
+	table-layout: fixed;
+	border-color: #ece9d8;
+}
+
+.tabContext td {
+	word-wrap:break-word;
+	word-break:break-all;
+	white-space:normal;
+	bordr-top:0px solid red;
+	bordr-left:0px solid red;
+	border-bottom:1px solid #c0c0c0;
+	border-right:1px solid #c0c0c0;
+}
+
+.tabContext td div {
+	text-overflow:ellipsis;
+	-ms-text-overflow:ellipsis;
+	-moz-text-overflow: ellipsis; 
+	-o-text-overflow: ellipsis;
+	overflow:hidden;
+	white-space:nowrap;
+	padding-left:2px;
+}
+
+.tabContext tr {
+	min-height:27px;
+	bordr-top:0px solid red;
+	bordr-left:0px solid red;
+	border-bottom:1px solid #c0c0c0;
+	border-right:1px solid #c0c0c0;
+}
+
+/* FF */
+.addtab {
+	border-collapse: collapse;
+	width: 100% !important;
+	overflow: auto;
+	table-layout: fixed;
+	
+	border:none;
+	border:1px solid #c0c0c0; 
+	border-bottom:0px solid #c0c0c0;
+	border-right:0px solid #c0c0c0;
+}
+
+/*IE 6*/
+* html .addtab {
+	border-collapse: collapse;
+	width: 100% !important;
+	overflow: auto;
+	table-layout: fixed;
+}
+
+/* IE7*/
+*+html .addtab {
+	border-collapse: collapse;
+	overflow: auto;
+	table-layout: fixed;
+}
+
+.addtab th {
+	text-align: right;
+	padding-right: 5px;
+	white-space: nowrap;
+	word-break: keep-all;
+	word-wrap: normal;
+	font-size: 9pt;
+	line-height: 14pt;
+	font-weight: normal;
+	background-color:#eeeeee;
+	border-bottom:1px solid #c0c0c0;
+	border-right:1px solid #c0c0c0;
+}
+
+.addtab td {
+	height:auto;min-height:27px;word-wrap:break-word;word-break:break-all;white-space:normal;
+	padding-left:2px;
+	border-bottom:1px solid #c0c0c0;
+	border-right:1px solid #c0c0c0;
+}
+
+/*定义图标按钮的大小*/
+.editimage{
+	height:16px;
+	width:16px;
+	border:0px solid red;
+	cursor:pointer;
+	margin-left:10px;
+}
+
+/*定义各种按钮*/
+.shopButton,button{
+	background-repeat:no-repeat;
+	background-color:#fbf4e6;
+	padding-left:18px;
+	padding-top:2px;
+	cursor: pointer;
+}
+
+.butAdd,.buttonAddItem{
+	background-image: url(../images/button/drop-add.gif); 
+	background-repeat:no-repeat;
+	background-color:#fbf4e6;
+	padding-left:18px;
+	padding-top:2px;
+	cursor: pointer;
+}
+
+.butSelected{
+	background-image: url(../images/button/drop-yes.gif); 
+	background-repeat:no-repeat;
+	background-color:#fbf4e6;
+	padding-left:18px;
+	padding-top:2px;
+	cursor: pointer;
+}
+
+.buttonReset{
+	background-image: url(../images/button/reset.png); 
+	background-repeat:no-repeat;
+	background-color:#fbf4e6;
+	padding-left:12px;
+	padding-top:2px;
+	cursor: pointer;
+	FONT-SIZE: 9pt;
+}
+
+.butClose{
+	background-image: url(../images/button/drop-no.gif); 
+	background-repeat:no-repeat;
+	background-color:#fbf4e6;
+	padding-left:18px;
+	padding-top:2px;
+	cursor: pointer;
+}
+
+.butSave{
+	background-image: url(../images/button/save.gif); 
+	background-repeat:no-repeat;
+	background-color:#fbf4e6;
+	padding-left:18px;
+	padding-top:2px;
+	cursor: pointer;
+}
+
+.butUpdate,.buttonUpdateItem{
+	background-image: url(../images/button/drop-yes.gif); 
+	background-repeat:no-repeat;
+	background-color:#fbf4e6;
+	padding-left:18px;
+	padding-top:2px;
+	cursor: pointer;
+}
+
+.butQuery{
+	background-image: url(../images/button/search.png); 
+	background-repeat:no-repeat;
+	background-color:#fbf4e6;
+	padding-left:16px;
+	padding-top:2px;
+	cursor: pointer;
+}
+
+.butOk{
+	background-image: url(../images/button/drop-yes.gif); 
+	background-repeat:no-repeat;
+	background-color:#fbf4e6;
+	padding-left:16px;
+	padding-top:2px;
+	cursor: pointer;
+}
+
+.butImport{
+	background-image: url(../images/button/import.png); 
+	background-repeat:no-repeat;
+	background-color:#fbf4e6;
+	padding-left:18px;
+	padding-top:2px;
+	cursor: pointer;
+}
+
+.butExport{
+	background-image: url(../images/button/export.png); 
+	background-repeat:no-repeat;
+	background-color:#fbf4e6;
+	padding-left:18px;
+	padding-top:2px;
+	cursor: pointer;
+}
+
+.butExportExcel{
+	background-image: url(../images/button/excel.gif); 
+	background-repeat:no-repeat;
+	background-color:#fbf4e6;
+	padding-left:18px;
+	padding-top:2px;
+	cursor: pointer;
+}
+
+.butDownExcelTemplate{
+	background-image: url(../images/excel.gif); 
+	background-repeat:no-repeat;
+	background-color:#fbf4e6;
+	padding-left:18px;
+	padding-top:2px;
+	cursor: pointer;
+}
+
+.butAnalysis{
+	background-image: url(../images/button/analysis.png); 
+	background-repeat:no-repeat;
+	background-color:#fbf4e6;
+	padding-left:18px;
+	padding-top:2px;
+	cursor: pointer;
+}
+
+.buttonDelItem{
+	background-image: url(../images/button/delete.png); 
+	background-repeat:no-repeat;
+	background-color:#fbf4e6;
+	padding-left:18px;
+	padding-top:2px;
+	cursor: pointer;
+}
+
+.buttonAttach{
+	background-image: url(../images/button/attach.png); 
+	background-repeat:no-repeat;
+	background-color:#fbf4e6;
+	padding-left:18px;
+	padding-top:2px;
+	cursor: pointer;
+}
+
+#butPrint{
+	background-image: url(../images/button/printer.png); 
+	background-repeat:no-repeat;
+	background-color:#fbf4e6;
+	padding-left:12px;
+	padding-top:2px;
+	cursor: pointer;
+	FONT-SIZE: 9pt;
+}
+
+/*表脚*/
+.tabFootbar {
+	overflow: visible;
+	width:auto;
+	vertical-align: middle;
+	border: 1px solid #aac0dd;
+	border-bottom: 1px inset #aac0dd;
+}
+
+.tabFootbar tr {
+	width: 100%;
+	border: 1px solid #aac0dd;
+	text-valign: middle;
+	background-image: url(../images/tab_14.gif);
+}
+
+/*分隔符*/
+.tabFootbar .separatorTool {
+	font-size: 0px;
+	padding: 0px;
+	width: 1px;
+	background-color: #CEDFFF;
+	background-image: url(../images/grid/colseparator.gif);
+	background-repeat: no-repeat;
+	background-position: center;
+	white-space: nowrap;
+	word-break: keep-all;
+	word-wrap: normal;
+}
+
+.tabFootbar .pageNav {
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-position: center;
+	border: 0px #dddddd none;
+	width: 20px;
+	height: 25px;
+	cursor: pointer;
+	vertical-align: center;
+}
+
+.tabFootbar .jumpPage {
+	background-image: url(../images/grid/gotopage.gif);
+}
+
+.tabFootbar .firstPage {
+	background-image: url(../images/grid/firstpage.gif);
+}
+
+.tabFootbar .prevPage {
+	background-image: url(../images/grid/prevpage.gif);
+}
+
+.tabFootbar .nextPage {
+	background-image: url(../images/grid/nextpage.gif);
+}
+
+.tabFootbar .lastPage {
+	background-image: url(../images/grid/lastpage.gif);
+}
+
+.tabFootbar .jumpPageD {
+	background-image: url(../images/grid/gotopage.gif);
+}
+
+.tabFootbar .firstPageD {
+	background-image: url(../images/grid/firstpagedisabled.gif);
+}
+
+.tabFootbar .prevPageD {
+	background-image: url(../images/grid/prevpagedisabled.gif);
+}
+
+.tabFootbar .nextPageD {
+	background-image: url(../images/grid/nextpagedisabled.gif);
+}
+
+.tabFootbar .lastPageD {
+	background-image: url(../images/grid/lastpagedisabled.gif);
+}
+
+.tabFootbar .pageSizeTool {
+	padding: 0px 3px 0px 3px;
+	vertical-align: middle;
+}
+
+.tabFootbar .pageJumpTool {
+	text-align: center;
+	padding: 0px 3px 0px 3px;
+	white-space: nowrap;
+	word-break: keep-all;
+	word-wrap: normal;
+	text-valign: middle;
+}
+
+.tabFootbar .exportTool {
+	text-align: center;
+	white-space: nowrap;
+	word-break: keep-all;
+	word-wrap: normal;
+}
+
+.tabFootbar .extendTool {
+	text-align: center;
+	width: 99%;
+	white-space: nowrap;
+	word-break: keep-all;
+	word-wrap: normal;
+}
+
+.tabFootbar .extendTool A {
+	display: inline;
+	white-space: nowrap;
+	word-break: keep-all;
+	word-wrap: normal;
+}
+
+.tabFootbar .statusTool {
+	border: 0px solid red;
+	padding: 0px 3px 0px 0px;
+	text-align: right;
+	white-space: nowrap;
+	word-break: keep-all;
+	word-wrap: normal;
+}
+
+.tabFootbar .toolButton {
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-position: center;
+	border: 0px none #dddddd;
+	width: 20px;
+	height: 18px;
+	cursor: pointer;
+	display: inline;
+}
+
+.tabFootbar .jumpPageInput {
+	vertical-align: center;
+	width: 25px;
+	padding-top: 1px;
+	margin-top: 0px;
+	border: 1px solid #337799;
+	display: inline-block;
+}
+
+.tabFootbar .refreshTool {
+	width: 22px;
+	text-align: center;
+}
+
+.tabFootbar .saveTool {
+	width: 22px;
+	text-align: center;
+}
+
+.tabFootbar .addTool {
+	width: 22px;
+	text-align: center;
+}
+
+.tabFootbar .delTool {
+	width: 22px;
+	text-align: center;
+}
+
+.tabFootbar .girdRefresh {
+	background-image: url(../images/grid/girdrefresh.gif);
+}
+
+.tabFootbar .girdSave {
+	background-image: url(../images/grid/girdsave.gif);
+}
+
+.tabFootbar .girdAdd {
+	background-image: url(../images/grid/girdadd.gif);
+}
+
+.tabFootbar .girdDel {
+	background-image: url(../images/grid/girddel.gif);
+}
+
+.tabFootbar .exportXls {
+	background-image: url(../images/grid/xls.gif);
+}
+
+.tabFootbar .exportPdf {
+	background-image: url(../images/grid/pdf.gif);
+}
+
+.tabFootbar .exportCsv {
+	background-image: url(../images/grid/csv.gif);
+}
+
+.tabFootbar .textContext {
+	padding-left: 5px;
+	padding-right: 20px;
+}
+
+.labstars{
+	background-image: url(../images/stars.gif);
+	background-repeat: repeat-x;
+	display:inline;
+}
+
+.signDivCss{
+	margin-top:10px;
+	margin-left:10px;
+	padding-top:140px;
+	padding-left:10px;
+	
+	border-width:2px;
+	border-color:#94D342;
+	border-style: outset;
+	border-left:0px solid #ccc;
+	border-top:0px solid #ccc;
+	
+	background: #F2FEE3;
+	width:500px;
+	height:300px;
+	font-size:13pt;
+}
+
+.levelDiv{
+	height:100%;
+	width:100%;
+	overflow-y:auto;
+	overflow-x:hidden;
+	padding-bottom:0px;
+	
+	border:none;
+	border:1px solid #c0c0c0; 
+	border-top:0px solid #c0c0c0;
+	border-left:0px solid #c0c0c0;
+	border-bottom:0px solid #c0c0c0;
+	border-right:0px solid #c0c0c0;
+}
+
+@media print {
+	.divContext {
+		CLEAR: left;
+		height:auto;
+		width:auto;
+		OVERFLOW-X: hidden;
+		OVERFLOW-y: hidden;
+		border:1pt solid #c0c0c0;
+	}
+	table,.tabFootbar,
+	.addtab,.addtab tr,.addtab tr th,.addtab tr td,
+	.tabContext,.tabContext tr,.tabContext tr th,.tabContext tr td,
+	.tabHeader,.tabHeader tr,.tabHeader tr th,.tabHeader tr td{
+		border-width: 1pt;
+		border-bottom:1pt solid #ccc;
+		border-top:1pt solid #ccc;
+		border-left:1pt solid #ccc;
+		border-right:1pt solid #ccc;
+		border-color:#ccc;
+		border:1pt solid #ccc;
+		background-image:none;
+		border-bottom-color:#ccc;
+		padding:0;
+		border-collapse:separate;
+	}
+	.tabFoot{
+		border:1px;
+	}
+	.tipdiv{
+		filter:none;
+	}
+	label{border:0px;}
+	.bottombutton{display:none;}
+	img{display:none;}
+}

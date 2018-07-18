@@ -1,0 +1,117 @@
+@CHARSET "UTF-8";
+
+label {
+	PADDING-LEFT:4px; 
+	padding-right:4px;
+	font-size:12px;
+	font-weight:normal;
+}
+.link_head {
+	border: 1px inset #c0c0c0;
+	padding-right:0px;
+}
+.link_head td,.link_head tr{
+	height:10px;
+	min-height:10px;
+}
+
+.link_head textarea{
+	FONT-SIZE: 9pt;
+}
+.link_lab {
+	word-break: break-all;
+	word-wrap: break-word;
+	margin-bottom: 5px;
+	height: auto;
+	white-space: pre; /* CSS2 */
+	white-space: -moz-pre-wrap; /* Mozilla */
+	white-space: -hp-pre-wrap; /* HP printers */
+	white-space: -o-pre-wrap; /* Opera 7 */
+	white-space: -pre-wrap; /* Opera 4-6 */
+	white-space: pre-wrap; /* CSS 2.1 */
+	white-space: pre-line; /* CSS 3 (and 2.1 as well, actually) */
+	word-wrap: break-word; /* IE */
+}
+
+.link_box {
+	CURSOR: default; 
+	TEXT-ALIGN: left;
+	nowrap:nowrap;
+	padding-right:0px;
+}
+	
+.link_text {
+	PADDING-LEFT: 2px;
+	padding-right:2px;
+	margin-top:0px;
+	background-color:#fff;
+}
+
+.link_arrow0 {
+	background-color:#fff;
+	border: 0px outset inactivecaptiontext; 
+	background-image: url(../images/trigger.gif);
+	background-repeat:no-repeat;
+	background-position:-85 -2;
+	padding: 0px;
+	width:17px;
+	height:20px;
+}
+.link_arrow1 {
+	background-color:#fff;
+	border: 1px solid #d4d4d4; 
+	background-image: url(../images/trigger.gif);
+	background-repeat:no-repeat;
+	background-position:-68 -2;
+	padding: 0px;
+	width:17px;
+	height:20px;
+}
+
+.link_arrow2 {
+	background-color:#fff;
+	border: 0px outset inactivecaptiontext; 
+	border-top-width:0px;
+	background-image: url(../images/clear-trigger.gif);
+	background-repeat:no-repeat;
+	background-position:-85 -2;
+	padding: 0px;
+	width:17px;
+	height:20px;
+}
+.link_arrow3 {
+	background-color:#fff;
+	border: 1px solid #d4d4d4; 
+	border-top-width:0px;
+	background-image: url(../images/clear-trigger.gif);
+	background-repeat:no-repeat;
+	background-position:-68 -2;
+	padding: 0px;
+	width:17px;
+	height:20px;
+}
+
+.link_value {BORDER: 1px solid #ccc;visibility:hidden; OVERFLOW-X: hidden; POSITION: absolute;BACKGROUND: #FFF;z-index:100;}
+.link_record0 {
+	border-top : 1px solid inactivecaptiontext; 
+	padding-left : 0px;
+	border-left : 0px solid red; 
+	background: #FFF; 
+	width : 100%; 
+	color : #000;
+}
+
+.simutab{
+	display: inline;
+	margin-bottom:-6px;
+	/*float:left;*/
+	/*line-height:10px*/
+}
+
+.simutab tr{
+	height:20px;
+}
+
+.simutab td{
+	height:20px;
+}
