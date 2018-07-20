@@ -35,7 +35,14 @@
 		}
 		.nodePanel .panel-body{
 			padding:0px;
-			padding-bottom:5px;
+		}
+		.nodePanel .panel-body .nodeInfoPenel{
+			padding:0px;
+			border-right:1px solid #c0c0c0;
+		}
+		.nodePanel .panel-body .nodeInfoFooter{
+			margin-top:-10px;
+			margin-bottom:10px;
 		}
 		.nodePanel .panel-body .table-bordered{
 			border-left:0px solid red;
@@ -47,10 +54,17 @@
 			font-weight:bold;
 			border-left:0px solid red;
 		}
-		.nodeAttrTab .ltd{
+		.nodeAttrTab .ltd,.nodeAttrTab .ltdc{
 			text-align:left;
 			vertical-align:middle;
 			padding-left:15px;
+			border-right:0px solid red;
+		}
+		.nodeAttrTab .ltdc{
+			padding-left:4px;
+		}
+		.navbar-fixed-top{
+			position:absolute; 
 		}
 	</style>
 	<script type="text/javascript">
@@ -219,10 +233,18 @@
 				type: 'post',
 				data: postData,
 				success: function (jsonObj) {
-					console.log(jsonObj);
 					if(jsonObj.success){
-						var treeNode = zTreeObj.getNodeByParam("fullPath", jsonObj.parentPath, null);
-						zTreeObj.addNodes(treeNode,jsonObj.data);
+						$("#successMsg").css("display","");
+						$("#successMsg").slideUp(1000,function(){
+							var treeNode = zTreeObj.getNodeByParam("fullPath", jsonObj.parentPath, null);
+							//zTreeObj.addNodes(treeNode,jsonObj.data);
+							zTreeOnExpand(null,null,treeNode);
+							//zTreeOnClick(null, null, treeNode);
+						});
+					}
+					else{
+						$("#failMsg").css("display","");
+						$("#failMsg").slideUp(1000);
 					}
 				}
 			});
@@ -246,22 +268,25 @@
 				type: 'post',
 				data: postData,
 				success: function (jsonObj) {
-					console.log(jsonObj);
 					if(jsonObj.success){
-						//删除当前节点
-						var treeNode = zTreeObj.getNodeByParam("fullPath", jsonObj.nodePath, null);
-						zTreeObj.removeNode(treeNode);
-						
-						//选中父节点并触发其click事件,让左右数据均
-						var parentNode=zTreeObj.getNodeByParam("fullPath", jsonObj.parentPath, null);
-						zTreeObj.selectNode(parentNode);
-						zTreeOnClick(null, null, parentNode);
-						
-						//清空部分信息
-						$("#childPath").val("");
+						$("#successMsg").css("display","");
+						$("#successMsg").slideUp(1000,function(){
+							//删除当前节点
+							var treeNode = zTreeObj.getNodeByParam("fullPath", jsonObj.nodePath, null);
+							zTreeObj.removeNode(treeNode);
+							
+							//选中父节点并触发其click事件,让左右数据均
+							var parentNode=zTreeObj.getNodeByParam("fullPath", jsonObj.parentPath, null);
+							zTreeObj.selectNode(parentNode);
+							zTreeOnClick(null, null, parentNode);
+							
+							//清空部分信息
+							$("#childPath").val("");
+						});
 					}
 					else{
-						
+						$("#failMsg").css("display","");
+						$("#failMsg").slideUp(1000);
 					}
 				}
 			});
@@ -285,13 +310,17 @@
 				success: function (jsonObj) {
 					console.log(jsonObj);
 					if(jsonObj.success){
-						//选中当前节点并触发其click事件
-						var treeNode = zTreeObj.getNodeByParam("fullPath", jsonObj.nodePath, null);
-						zTreeObj.selectNode(treeNode);
-						zTreeOnClick(null, null, treeNode);
+						$("#successMsg").css("display","");
+						$("#successMsg").slideUp(1000,function(){
+							//选中当前节点并触发其click事件
+							var treeNode = zTreeObj.getNodeByParam("fullPath", jsonObj.nodePath, null);
+							zTreeObj.selectNode(treeNode);
+							zTreeOnClick(null, null, treeNode);
+						});
 					}
 					else{
-						
+						$("#failMsg").css("display","");
+						$("#failMsg").slideUp(1000);
 					}
 				}
 			});
@@ -316,82 +345,90 @@
 					</h3>
 				</div>
 				<div class="panel-body">
-					<table class="table table-bordered table-hover table-condensed table-striped nodeAttrTab">
-						<tr>
-							<td width="150px" class="ctd">path</td>
-							<td class="ltd" id="tdPath"></td>
-						</tr>
-						<tr>
-							<td class="ctd">data</td>
-							<td id="tdData">
-								<div class="input-group col-xs-6">
-									<input type="text" class="form-control" id="nodeData" ext="">
-									<span class="input-group-btn">
-										<button class="btn btn-primary" type="button" disabled="disabled" id="btnSetNodeData">设置节点值</button>
-									</span>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td class="ctd">cZxid</td>
-							<td class="ltd" id="tdCzxid"></td>
-						</tr>
-						<tr>
-							<td class="ctd">ctime</td>
-							<td class="ltd" id="tdCtime"></td>
-						</tr>
-						<tr>
-							<td class="ctd">mZxid</td>
-							<td class="ltd" id="tdMzxid"></td>
-						</tr>
-						<tr>
-							<td class="ctd">mtime</td>
-							<td class="ltd" id="tdMtime"></td>
-						</tr>
-						<tr>
-							<td class="ctd">pZxid</td>
-							<td class="ltd" id="tdPzxid"></td>
-						</tr>
-						<tr>
-							<td class="ctd">cversion</td>
-							<td class="ltd" id="tdCversion"></td>
-						</tr>
-						<tr>
-							<td class="ctd">dataVersion</td>
-							<td class="ltd" id="tdDataVersion"></td>
-						</tr>
-						<tr>
-							<td class="ctd">aclVersion</td>
-							<td class="ltd" id="tdAclVersion"></td>
-						</tr>
-						<tr>
-							<td class="ctd">ephemeraalOwner</td>
-							<td class="ltd" id="tdEphemer"></td>
-						</tr>
-						<tr>
-							<td class="ctd">dataLength</td>
-							<td class="ltd" id="tdDataLen"></td>
-						</tr>
-						<tr>
-							<td class="ctd">numChildren</td>
-							<td class="ltd" id="tdNumChild"></td>
-						</tr>
-						<tr>
-							<td class="ctd">子节点名称</td>
-							<td id="tdChildPath">
-								<div class="input-group col-xs-6">
-									<span class="input-group-addon" id="childParentPath">&nbsp;</span>
-									<input type="text" class="form-control" id="childPath" aria-describedby="childParentPath" ext="">
-									<span class="input-group-btn">
-										<button class="btn btn-primary" type="button" disabled="disabled" id="btnCreateNode">创建子节点</button>
-									</span>
-								</div>
-							</td>
-						</tr>
-					</table>
-					<div class="col-xs-12" style="margin-top:-15px;">
-						<button class="btn btn-danger" type="button" disabled="disabled" id="btnDelNode">删除当前节点</button>
-					</div>
+					<div class="col-xs-8 nodeInfoPenel"><!-- 节点内容展示开始 -->
+						<div id="successMsg" class="alert alert-success alert-dismissible navbar-fixed-top" role="alert" style="display:none">操作成功</div>
+						<div id="failMsg" class="alert alert-danger alert-dismissible navbar-fixed-top" role="alert" style="display:none">操作失败</div>
+						<table class="table table-bordered table-hover table-condensed table-striped nodeAttrTab">
+							<tr>
+								<td width="150px" class="ctd">path</td>
+								<td class="ltd" id="tdPath"></td>
+							</tr>
+							<tr>
+								<td class="ctd">data</td>
+								<td class="ltdc" id="tdData">
+									<div class="input-group">
+										<input type="text" class="form-control" id="nodeData" ext="">
+										<span class="input-group-btn">
+											<button class="btn btn-primary" type="button" disabled="disabled" id="btnSetNodeData">设置节点值</button>
+										</span>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td class="ctd">cZxid</td>
+								<td class="ltd" id="tdCzxid"></td>
+							</tr>
+							<tr>
+								<td class="ctd">ctime</td>
+								<td class="ltd" id="tdCtime"></td>
+							</tr>
+							<tr>
+								<td class="ctd">mZxid</td>
+								<td class="ltd" id="tdMzxid"></td>
+							</tr>
+							<tr>
+								<td class="ctd">mtime</td>
+								<td class="ltd" id="tdMtime"></td>
+							</tr>
+							<tr>
+								<td class="ctd">pZxid</td>
+								<td class="ltd" id="tdPzxid"></td>
+							</tr>
+							<tr>
+								<td class="ctd">cversion</td>
+								<td class="ltd" id="tdCversion"></td>
+							</tr>
+							<tr>
+								<td class="ctd">dataVersion</td>
+								<td class="ltd" id="tdDataVersion"></td>
+							</tr>
+							<tr>
+								<td class="ctd">aclVersion</td>
+								<td class="ltd" id="tdAclVersion"></td>
+							</tr>
+							<tr>
+								<td class="ctd">ephemeraalOwner</td>
+								<td class="ltd" id="tdEphemer"></td>
+							</tr>
+							<tr>
+								<td class="ctd">dataLength</td>
+								<td class="ltd" id="tdDataLen"></td>
+							</tr>
+							<tr>
+								<td class="ctd">numChildren</td>
+								<td class="ltd" id="tdNumChild"></td>
+							</tr>
+							<tr>
+								<td class="ctd">子节点名称</td>
+								<td class="ltdc" id="tdChildPath">
+									<div class="input-group">
+										<span class="input-group-addon" id="childParentPath">&nbsp;</span>
+										<input type="text" class="form-control" id="childPath" aria-describedby="childParentPath" ext="">
+										<span class="input-group-btn">
+											<button class="btn btn-primary" type="button" disabled="disabled" id="btnCreateNode">创建子节点</button>
+										</span>
+									</div>
+								</td>
+							</tr>
+						</table>
+						<div class="col-xs-12 nodeInfoFooter">
+							<button class="btn btn-danger" type="button" disabled="disabled" id="btnDelNode">删除当前节点</button>
+						</div>
+					</div><!-- 节点内容展示结束 -->
+					
+					<div class="col-xs-4 nodeMonitorPenel"><!-- 监控面板开始 -->
+						
+					</div><!-- 监控面板结束 -->
 				</div>
 			</div>
 		</div>

@@ -31,7 +31,7 @@ import com.sh.haoyue.utils.SyspropUtils;
 /**
  * 以目录格式展示zookeeper.
  * 注：/zookeeper节点不允许操作
- * @author E430
+ * @author plghqr@21cn.com
  */
 @Controller
 public class ZookeeperController {
