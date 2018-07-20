@@ -38,7 +38,7 @@ public class ZkMonitorController {
 						case NODE_ADDED:
 							if(logger.isDebugEnabled()) {
 								logger.debug("Event type is : {}", "NODE_ADDED");
-							}
+							} 
 							break;
 						case NODE_UPDATED:
 							if(logger.isDebugEnabled()) {
