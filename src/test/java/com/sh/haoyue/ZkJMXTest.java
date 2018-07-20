@@ -110,8 +110,8 @@ public class ZkJMXTest {
 		System.out.println("==============节点树对象===========");
 		
 		//非复制对象
-		//ObjectName dataTreePattern = new ObjectName("org.apache.ZooKeeperService:name0=ReplicatedServer_id?,name1=replica.?,name2=*,name3=InMemoryDataTree");
-		ObjectName dataTreePattern=new ObjectName("org.apache.ZooKeeperService:name0=StandaloneServer_port-1,name1=InMemoryDataTree");
+		ObjectName dataTreePattern = new ObjectName("org.apache.ZooKeeperService:name0=ReplicatedServer_id?,name1=replica.?,name2=*,name3=InMemoryDataTree");
+		//ObjectName dataTreePattern=new ObjectName("org.apache.ZooKeeperService:name0=StandaloneServer_port-1,name1=InMemoryDataTree");
 		
 		Set<ObjectName> dataTreeSets = mbsc.queryNames(dataTreePattern, null);
 		Iterator<ObjectName> dataTreeIterator = dataTreeSets.iterator();
@@ -128,9 +128,9 @@ public class ZkJMXTest {
 			String replicaId = dataTreeMap.get("name1").replace("replica.", "");
 			
 			String canonicalName = dataTreeObjectName.getCanonicalName();
-			//int roleEndIndex = canonicalName.indexOf(",name3");
 			String role = dataTreeMap.get("name0");	//Follower,Leader,Observer,Standalone
-			int roleEndIndex = canonicalName.indexOf(",name1");  //单机需要重新设置
+			int roleEndIndex = canonicalName.indexOf(",name3"); //单机需要重新设置
+			//int roleEndIndex = canonicalName.indexOf(",name1");  
 			
 			ObjectName roleObjectName = new ObjectName(canonicalName.substring(0, roleEndIndex));
 			System.out.println("==============zk服务状态===========");
@@ -151,8 +151,8 @@ public class ZkJMXTest {
 
 
 			System.out.println("==============所有客户端的连接信息===========");
-			//ObjectName connectionPattern = new ObjectName("org.apache.ZooKeeperService:name0=ReplicatedServer_id?,name1=replica.?,name2=*,name3=Connections,*");
-			ObjectName connectionPattern = new ObjectName("org.apache.ZooKeeperService:name0=StandaloneServer_port-1,name1=Connections,*");
+			ObjectName connectionPattern = new ObjectName("org.apache.ZooKeeperService:name0=ReplicatedServer_id?,name1=replica.?,name2=*,name3=Connections,*");
+			//ObjectName connectionPattern = new ObjectName("org.apache.ZooKeeperService:name0=StandaloneServer_port-1,name1=Connections,*");
 			Set<ObjectName> connectionSets = mbsc.queryNames(connectionPattern, null);
 			List<ObjectName> connectionList = new ArrayList<ObjectName>(connectionSets.size());
 			connectionList.addAll(connectionSets);

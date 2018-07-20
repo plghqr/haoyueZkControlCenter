@@ -20,6 +20,9 @@
 		.blockContent{
 			border:1px solid #c0c0c0;
 		}
+		.row div{
+			margin-right:5px;
+		}
 	</style>
 	<title>Service Configure Center</title>
 </head>
@@ -29,6 +32,10 @@
 		<div class="col-xs-3 blockContent">
 			<div><a href="<c:url value='/default/docList.do'/>" target="_blank"><i class="fa fa-list fa-fw" aria-hidden="true"></i>&nbsp;列表</a></div>
 			<div><a href="<c:url value='/default/viewDoc.do'/>" target="_blank"><i class="fa fa-folder-o fa-fw" aria-hidden="true"></i>&nbsp;文档</a></div>
+		</div>
+		
+		<div class="col-xs-3 blockContent">
+			<div><a href="<c:url value='/zk/zkRoot.do'/>" target="_blank"><i class="fa fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;Zookeeper Tree</a></div>
 		</div>
 	</div>
 </div>

@@ -25,7 +25,6 @@ import com.sh.haoyue.utils.SyspropUtils;
 public class DefaultController {
 	private static Logger logger = LoggerFactory.getLogger(DefaultController.class);
 	
-	
 	@RequestMapping(value="default/docList.do")
 	public ModelAndView docList(
 			HttpServletRequest request,
