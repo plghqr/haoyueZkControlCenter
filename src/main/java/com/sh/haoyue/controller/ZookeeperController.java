@@ -29,7 +29,8 @@ import com.sh.haoyue.dc.ZookeeperNode;
 import com.sh.haoyue.utils.SyspropUtils;
 
 /**
- * 以目录格式展示zookeeper
+ * 以目录格式展示zookeeper.
+ * 注：/zookeeper节点不允许操作
  * @author E430
  */
 @Controller
@@ -236,29 +237,151 @@ public class ZookeeperController {
 			}
 			if(StringUtils.isNotBlank(parentPath) && StringUtils.isNotBlank(childPath)) {
 				String nodePath=parentPath + childPath;
+				if( !nodePath.equalsIgnoreCase("/") && !nodePath.startsWith("/zookeeper") ) {
+					try {
+						Stat stat = curator.checkExists().forPath(nodePath);
+						if(stat==null) {
+							curator.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT).forPath(nodePath, new byte[0]);
+							retMap.put("success", true);
+							
+							retMap.put("nodePath", nodePath);
+							retMap.put("parentPath", parentPath.substring(0,parentPath.length()-1));
+							
+							//添加新的子节点(第一级子节点)
+							String[] childPathArr = childPath.split("/");
+							
+							ZookeeperNode node=new ZookeeperNode();
+							node.setName( childPathArr[0] );
+							node.setFullPath( parentPath + childPathArr[0] );
+							
+							//判断该节点是否有子节点(是否展开等)
+							List<String> grandson = curator.getChildren().forPath( node.getFullPath() );
+							if(!CollectionUtils.isEmpty(grandson)) {
+								node.setIsParent(true);
+							}
+							retMap.put("data", node );
+							
+						}
+					} catch (Exception ex) {
+						logger.error(ex.getMessage(), ex);
+					}
+				}
+			}
+		}
+		
+		curator.close();
+		
+		return new Gson().toJson(retMap);
+	}
+	
+	/**
+	 * 删除当前选中的节点以及其下的子节点
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="zk/deletNodes.do",produces="application/json;charset=UTF-8")
+	public String deletNodes(
+			HttpServletRequest request,
+			HttpServletResponse response) {
+		if(logger.isDebugEnabled()) {
+			logger.debug("zk/deletNodes.do");
+		}
+		Map<String,Object> retMap=new HashMap<String,Object>();
+		retMap.put("success", false);
+		
+		final RetryPolicy retryPolicy=new RetryForever(1000); 
+		CuratorFramework curator = CuratorFrameworkFactory.newClient(ZOOKEEPER_SERVER_LIST, retryPolicy);
+		curator.start();
+		
+		String nodePath=request.getParameter("nodePath");  //当前节点信息
+		if(StringUtils.isNotBlank(nodePath) ) {
+			nodePath=nodePath.trim();
+			
+			if(!nodePath.startsWith("/")) {
+				nodePath="/" + nodePath;
+			}
+			if(nodePath.endsWith("/")) {
+				nodePath=nodePath.substring(0,nodePath.length()-1);
+			}
+			
+			if( StringUtils.isNotBlank(nodePath) 
+					&& !nodePath.equalsIgnoreCase("/")
+					&& !nodePath.startsWith("/zookeeper")) {
 				try {
 					Stat stat = curator.checkExists().forPath(nodePath);
-					if(stat==null) {
-						curator.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT).forPath(nodePath, new byte[0]);
+					if(stat!=null) {
+						curator.delete().deletingChildrenIfNeeded().forPath(nodePath);
 						retMap.put("success", true);
 						
-						retMap.put("nodePath", nodePath);
-						retMap.put("parentPath", parentPath.substring(0,parentPath.length()-1));
+						retMap.put("nodePath", nodePath);  //从节点树上删除该节点
 						
-						//添加新的子节点(第一级子节点)
-						String[] childPathArr = childPath.split("/");
-						
-						ZookeeperNode node=new ZookeeperNode();
-						node.setName( childPathArr[0] );
-						node.setFullPath( parentPath + childPathArr[0] );
-						
-						//判断该节点是否有子节点(是否展开等)
-						List<String> grandson = curator.getChildren().forPath( node.getFullPath() );
-						if(!CollectionUtils.isEmpty(grandson)) {
-							node.setIsParent(true);
+						//标识父节点,以便客户端选中
+						int lastIndex = nodePath.lastIndexOf("/");
+						String parentPath=nodePath.substring(0,lastIndex);
+						retMap.put("parentPath", parentPath); 
+					}
+				} catch (Exception ex) {
+					logger.error(ex.getMessage(), ex);
+				}
+			}
+		}
+		
+		curator.close();
+		
+		return new Gson().toJson(retMap);
+	}
+	
+	/**
+	 * 给当前节点设置值
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="zk/setNodeData.do",produces="application/json;charset=UTF-8")
+	public String setNodeData(
+			HttpServletRequest request,
+			HttpServletResponse response) {
+		if(logger.isDebugEnabled()) {
+			logger.debug("zk/setNodeData.do");
+		}
+		Map<String,Object> retMap=new HashMap<String,Object>();
+		retMap.put("success", false);
+		
+		final RetryPolicy retryPolicy=new RetryForever(1000); 
+		CuratorFramework curator = CuratorFrameworkFactory.newClient(ZOOKEEPER_SERVER_LIST, retryPolicy);
+		curator.start();
+		
+		String nodePath=request.getParameter("nodePath");  //当前节点信息
+		String nodeData=request.getParameter("nodeData");  //节点拟设置的数据
+		if(StringUtils.isNotBlank(nodePath) ) {
+			nodePath=nodePath.trim();
+			
+			if(!nodePath.startsWith("/")) {
+				nodePath="/" + nodePath;
+			}
+			if(nodePath.endsWith("/")) {
+				nodePath=nodePath.substring(0,nodePath.length()-1);
+			}
+			
+			if( StringUtils.isNotBlank(nodePath) 
+					&& !nodePath.equalsIgnoreCase("/")
+					&& !nodePath.startsWith("/zookeeper") ) {
+				try {
+					Stat stat = curator.checkExists().forPath(nodePath);
+					if(stat!=null) {
+						if(StringUtils.isNotBlank(nodeData)) {
+							nodeData=nodeData.trim();
+							curator.setData().forPath(nodePath, nodeData.getBytes("UTF-8"));
 						}
-						retMap.put("data", node );
+						else {
+							curator.setData().forPath(nodePath,new byte[0]);
+						}
+						retMap.put("success", true);
 						
+						retMap.put("nodePath", nodePath);  //该节点被选中
 					}
 				} catch (Exception ex) {
 					logger.error(ex.getMessage(), ex);

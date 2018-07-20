@@ -35,7 +35,7 @@
 		}
 		.nodePanel .panel-body{
 			padding:0px;
-			padding-bottom:15px;
+			padding-bottom:5px;
 		}
 		.nodePanel .panel-body .table-bordered{
 			border-left:0px solid red;
@@ -45,6 +45,7 @@
 			text-align:center;
 			vertical-align:middle;
 			font-weight:bold;
+			border-left:0px solid red;
 		}
 		.nodeAttrTab .ltd{
 			text-align:left;
@@ -78,6 +79,14 @@
 			$("#btnCreateNode").on("click",function(){
 				return createChildNode();
 			});
+			
+			$("#btnDelNode").on("click",function(){
+				return deleteNodes();
+			});
+			
+			$("#btnSetNodeData").on("click",function(){
+				return setNodeData();
+			});
 		});
 		
 		/**
@@ -103,6 +112,32 @@
 			});
 		}
 		
+		/**
+		*  转换日期为yyyy-MM-dd HH:mm:ss格式
+		*/
+		function converDate(time){
+			var currDate=new Date(time);
+			
+			var y=currDate.getFullYear();
+			var mo=currDate.getMonth();
+			var d=currDate.getDate();
+			var h=currDate.getHours();
+			var mm=currDate.getMinutes();
+			var s=currDate.getSeconds();
+			
+			mo+=1;
+			if(mo<10) mo="0" + mo;
+			if(d<10) d="0" + d;
+			if(h<10) h="0" + h;
+			if(mm<10) mm="0" + mm;
+			if(s<10) s="0"+s;
+			return y + "-" + mo + "-" + d + " " + h + ":" + mm + ":" + s;
+			
+			//return currDate.getFullYear() + "-" + currDate.getMonth() + "-" + currDate.getDate() 
+			//	+ " " + currDate.getHours() + ":" + currDate.getMinutes() + ":" + currDate.getSeconds();
+			//return new Date(time).toLocaleString()
+		}
+		
 		var currNodePath="";  //当前选中节点全路径
 		/**
 		* 点击节点后获取节点属性
@@ -117,12 +152,22 @@
 				success: function (jsonObj) {
 					if(jsonObj.success){
 						$("#tdPath").html( jsonObj.nodePath );
-						$("#tdData").html( jsonObj.nodeData );
+						$("#nodeData").val( jsonObj.nodeData );
 						
 						$("#tdCzxid").html( jsonObj.nodeStat.czxid);
-						$("#tdCtime").html( jsonObj.nodeStat.ctime);
+						if(jsonObj.nodeStat.ctime!="" && jsonObj.nodeStat.ctime!=0){
+							$("#tdCtime").html( converDate(jsonObj.nodeStat.ctime) );
+						}
+						else{
+							$("#tdCtime").html( jsonObj.nodeStat.ctime);
+						}
 						$("#tdMzxid").html( jsonObj.nodeStat.mzxid);
-						$("#tdMtime").html( jsonObj.nodeStat.mtime);
+						if(jsonObj.nodeStat.mtime!="" && jsonObj.nodeStat.mtime!=0){
+							$("#tdMtime").html( converDate(jsonObj.nodeStat.mtime) );
+						}
+						else{
+							$("#tdMtime").html( jsonObj.nodeStat.mtime);
+						}
 						$("#tdPzxid").html( jsonObj.nodeStat.pzxid);
 						$("#tdCversion").html( jsonObj.nodeStat.cversion);
 						$("#tdDataVersion").html( jsonObj.nodeStat.version);
@@ -143,14 +188,17 @@
 						
 						$("#btnCreateNode").attr({"disabled":false});
 						$("#btnDelNode").attr({"disabled":false});
+						$("#btnSetNodeData").attr({"disabled":false});
 					}
 					else{
 						currNodePath="";
 						$(".ltd").each(function(){
 							$(this).html("");
 						});
+						$("#nodeData").val( "" );
 						$("#btnCreateNode").attr({"disabled":true});
 						$("#btnDelNode").attr({"disabled":true});
+						$("#btnSetNodeData").attr({"disabled":true});
 					}
 				}
 			});
@@ -174,8 +222,76 @@
 					console.log(jsonObj);
 					if(jsonObj.success){
 						var treeNode = zTreeObj.getNodeByParam("fullPath", jsonObj.parentPath, null);
-						console.log(treeNode);
 						zTreeObj.addNodes(treeNode,jsonObj.data);
+					}
+				}
+			});
+		}
+		
+		/**
+		* 删除当前选中节点
+		*/
+		function deleteNodes(){
+			var postData={};
+			postData["nodePath"]=currNodePath;
+			if(postData["nodePath"]==""){
+				alert("请选中节点后删除！");
+				return;
+			}
+			if(!window.confirm("您确定需要删除[" + currNodePath + "]节点吗?")){
+				return;
+			}
+			$.ajax({
+				url: "<c:url value='/zk/deletNodes.do'/>?d=" + Math.random(),
+				type: 'post',
+				data: postData,
+				success: function (jsonObj) {
+					console.log(jsonObj);
+					if(jsonObj.success){
+						//删除当前节点
+						var treeNode = zTreeObj.getNodeByParam("fullPath", jsonObj.nodePath, null);
+						zTreeObj.removeNode(treeNode);
+						
+						//选中父节点并触发其click事件,让左右数据均
+						var parentNode=zTreeObj.getNodeByParam("fullPath", jsonObj.parentPath, null);
+						zTreeObj.selectNode(parentNode);
+						zTreeOnClick(null, null, parentNode);
+						
+						//清空部分信息
+						$("#childPath").val("");
+					}
+					else{
+						
+					}
+				}
+			});
+		}
+		
+		/**
+		* 设置/修改当前节点的值
+		*/
+		function setNodeData(){
+			var postData={};
+			postData["nodePath"]=currNodePath;
+			postData["nodeData"]=$("#nodeData").val();
+			if(postData["nodePath"]==""){
+				alert("请选中节点后再设置值！");
+				return;
+			}
+			$.ajax({
+				url: "<c:url value='/zk/setNodeData.do'/>?d=" + Math.random(),
+				type: 'post',
+				data: postData,
+				success: function (jsonObj) {
+					console.log(jsonObj);
+					if(jsonObj.success){
+						//选中当前节点并触发其click事件
+						var treeNode = zTreeObj.getNodeByParam("fullPath", jsonObj.nodePath, null);
+						zTreeObj.selectNode(treeNode);
+						zTreeOnClick(null, null, treeNode);
+					}
+					else{
+						
 					}
 				}
 			});
@@ -200,14 +316,21 @@
 					</h3>
 				</div>
 				<div class="panel-body">
-					<table class="table table-bordered table-hover table-striped nodeAttrTab">
+					<table class="table table-bordered table-hover table-condensed table-striped nodeAttrTab">
 						<tr>
 							<td width="150px" class="ctd">path</td>
 							<td class="ltd" id="tdPath"></td>
 						</tr>
 						<tr>
 							<td class="ctd">data</td>
-							<td class="ltd" id="tdData"></td>
+							<td id="tdData">
+								<div class="input-group col-xs-6">
+									<input type="text" class="form-control" id="nodeData" ext="">
+									<span class="input-group-btn">
+										<button class="btn btn-primary" type="button" disabled="disabled" id="btnSetNodeData">设置节点值</button>
+									</span>
+								</div>
+							</td>
 						</tr>
 						<tr>
 							<td class="ctd">cZxid</td>
@@ -266,7 +389,7 @@
 							</td>
 						</tr>
 					</table>
-					<div class="col-xs-12">
+					<div class="col-xs-12" style="margin-top:-15px;">
 						<button class="btn btn-danger" type="button" disabled="disabled" id="btnDelNode">删除当前节点</button>
 					</div>
 				</div>

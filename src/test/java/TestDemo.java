@@ -11,6 +11,11 @@ public class TestDemo {
 		if(childPath.endsWith("/")) {
 			childPath=childPath.substring(0,childPath.length()-1);
 		}
-		System.out.println(childPath);
+		
+		int lastIndex = childPath.lastIndexOf("/");
+		String parentPath=childPath.substring(0,lastIndex);
+		
+		System.out.println( childPath );
+		System.out.println( parentPath );
 	}
 }
