@@ -7,9 +7,11 @@
 	<meta http-equiv="x-ua-compatible" content="IE=edge, chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=no" />
 	<%@ include file="/common/includejscss.jsp"%>
+	
 	<link type="text/css" rel="stylesheet" href="<c:url value='/css/ztree/zTreeStyle.css?v=20180719001'/>">
 	<script type="text/javascript" src="<c:url value='/js/ztree/jquery.ztree.core-3.2.js?v=20180719001'/>" ></script>
 	<script type="text/javascript" src="<c:url value='/js/ztree/jquery.ztree.excheck-3.2.js?v=20180719001'/>" ></script>
+	
 	<title>Zookeeper树</title>
 	<style type="text/css">
 		.content{
@@ -102,7 +104,7 @@
 				return setNodeData();
 			});
 		});
-		
+				
 		/**
 		* 展开时加载子节点
 		*/
@@ -111,6 +113,10 @@
 			var s = treeNode.children;
 			if (s != undefined)
 				return;
+			
+			//显示加载动画
+			treeNode.icon = "<c:url value='/css/ztree/img/loading.gif'/>";
+			zTreeObj.updateNode(treeNode);
 			
 			var postData={};
 			postData["nodePath"]=treeNode.fullPath;
@@ -121,6 +127,10 @@
 				success: function (jsonObj) {
 					if(jsonObj.success){
 						zTreeObj.addNodes(treeNode,jsonObj.data);
+						
+						//关闭加载动画
+						treeNode.icon="";
+						zTreeObj.updateNode(treeNode);
 					}
 				}
 			});
@@ -145,18 +155,26 @@
 			if(h<10) h="0" + h;
 			if(mm<10) mm="0" + mm;
 			if(s<10) s="0"+s;
-			return y + "-" + mo + "-" + d + " " + h + ":" + mm + ":" + s;
-			
+			if(time==0){
+				return y + "-" + mo + "-" + d + " " + h + ":" + mm + ":" + s + " (缺省时间)";
+			}
+			else{
+				return y + "-" + mo + "-" + d + " " + h + ":" + mm + ":" + s;
+			}
 			//return currDate.getFullYear() + "-" + currDate.getMonth() + "-" + currDate.getDate() 
 			//	+ " " + currDate.getHours() + ":" + currDate.getMinutes() + ":" + currDate.getSeconds();
 			//return new Date(time).toLocaleString()
 		}
 		
 		var currNodePath="";  //当前选中节点全路径
+		
 		/**
 		* 点击节点后获取节点属性
 		*/
 		function zTreeOnClick(event, treeId, treeNode){
+			treeNode.icon = "<c:url value='/css/ztree/img/loading.gif'/>";
+			zTreeObj.updateNode(treeNode);
+			
 			var postData={};
 			postData["nodePath"]=treeNode.fullPath;
 			$.ajax({
@@ -164,24 +182,27 @@
 				type: 'post',
 				data: postData,
 				success: function (jsonObj) {
+					treeNode.icon = "";
+					zTreeObj.updateNode(treeNode);
+					
 					if(jsonObj.success){
 						$("#tdPath").html( jsonObj.nodePath );
 						$("#nodeData").val( jsonObj.nodeData );
 						
 						$("#tdCzxid").html( jsonObj.nodeStat.czxid);
-						if(jsonObj.nodeStat.ctime!="" && jsonObj.nodeStat.ctime!=0){
+						//if(jsonObj.nodeStat.ctime!="" && jsonObj.nodeStat.ctime!=0){
 							$("#tdCtime").html( converDate(jsonObj.nodeStat.ctime) );
-						}
-						else{
-							$("#tdCtime").html( jsonObj.nodeStat.ctime);
-						}
+						//}
+						//else{
+						//	$("#tdCtime").html( jsonObj.nodeStat.ctime);
+						//}
 						$("#tdMzxid").html( jsonObj.nodeStat.mzxid);
-						if(jsonObj.nodeStat.mtime!="" && jsonObj.nodeStat.mtime!=0){
+						//if(jsonObj.nodeStat.mtime!="" && jsonObj.nodeStat.mtime!=0){
 							$("#tdMtime").html( converDate(jsonObj.nodeStat.mtime) );
-						}
-						else{
-							$("#tdMtime").html( jsonObj.nodeStat.mtime);
-						}
+						//}
+						//else{
+						//	$("#tdMtime").html( jsonObj.nodeStat.mtime);
+						//}
 						$("#tdPzxid").html( jsonObj.nodeStat.pzxid);
 						$("#tdCversion").html( jsonObj.nodeStat.cversion);
 						$("#tdDataVersion").html( jsonObj.nodeStat.version);

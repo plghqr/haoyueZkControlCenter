@@ -37,25 +37,35 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.curator</groupId>
-			<artifactId>curator-client</artifactId>
-			<version>2.12.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.curator</groupId>
-			<artifactId>curator-framework</artifactId>
-			<version>2.12.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-			<version>3.2.6.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.curator</groupId>
 			<artifactId>curator-recipes</artifactId>
 			<version>2.12.0</version>
 			<type>bundle</type>
 		</dependency>
+		<dependency>
+  			<groupId>org.springframework</groupId>
+  			<artifactId>spring-test</artifactId>
+  			<version>4.2.5.RELEASE</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>org.springframework</groupId>
+  			<artifactId>spring-webmvc</artifactId>
+  			<version>4.2.5.RELEASE</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>org.springframework</groupId>
+  			<artifactId>spring-orm</artifactId>
+  			<version>4.2.5.RELEASE</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>org.springframework</groupId>
+  			<artifactId>spring-context-support</artifactId>
+  			<version>4.2.5.RELEASE</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>com.fasterxml.jackson.core</groupId>
+  			<artifactId>jackson-databind</artifactId>
+  			<version>2.7.4</version>
+  		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
@@ -65,12 +75,6 @@
 			<groupId>org.tuckey</groupId>
 			<artifactId>urlrewritefilter</artifactId>
 			<version>2.5.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<version>3.2.6.RELEASE</version>
-			<type>bundle</type>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
@@ -104,7 +108,7 @@
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
-			
+			 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
